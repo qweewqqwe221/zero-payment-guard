@@ -1,0 +1,14 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "host.beacon.worker.zero-payment-guard/payment-guard",
+  "title": "ZERO Payment Guard",
+  "description": "Base wallet snapshot, tx status, payment & token checks, company enrichment, web to Markdown; x402.",
+  "version": "1.5.0",
+  "websiteUrl": "https://zero-payment-guard.worker.beacon.host/",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://zero-payment-guard.worker.beacon.host/mcp"
+    }
+  ]
+}
