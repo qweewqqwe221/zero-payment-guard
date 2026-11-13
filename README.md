@@ -87,7 +87,7 @@ https://zero-payment-guard.worker.beacon.host (USDC on Base, $0.001 to $0.008 pe
 `/openapi.json`, `/llms.txt` and `/sample/*` are free). See [`mcp/`](mcp/) for the MCP
 client config. The script in this repo does not depend on it.
 
-Longer write-up: [How to preflight an x402 endpoint before your agent pays](https://zero-payment-guard.worker.beacon.host/d/x402-preflight-guide-v1.md).
+Longer write-up: [How to preflight an x402 endpoint before your agent pays](https://zero-payment-guard.worker.beacon.host/d/x402-preflight-guide-v1.md). (also on [Hashnode](https://zeroagent.hashnode.dev/how-to-preflight-an-x402-endpoint-before-your-agent-pays)).
 
 ## Disclosure
 
