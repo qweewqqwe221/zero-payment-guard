@@ -16,7 +16,7 @@ import { handleMcp } from "./mcp";
 import { llms } from "./llms";
 import { DELIVERABLES, DELIVERABLES_BIN } from "./deliverables";
 
-type Env = { PAY_TO: string; FACILITATOR_URL: string; NETWORK: string; DEV_FREE?: string; CDP_API_KEY_ID?: string; CDP_API_KEY_SECRET?: string };
+type Env = { PAY_TO: string; FACILITATOR_URL: string; NETWORK: string; DEV_FREE?: string; CDP_API_KEY_ID?: string; CDP_API_KEY_SECRET?: string; FACILITATOR_MODE?: string };
 
 const DEFAULTS = { PAY_TO: "0x857B162e7817D385ED1Dc895c3823BeE42D0ebE5", NETWORK: "eip155:8453", FACILITATOR_URL: "https://facilitator.payai.network" };
 const envOf = (e: any): Env => ({ ...DEFAULTS, ...(e || {}) });
@@ -142,8 +142,13 @@ function routes(env: Env) {
 
 // Built per request (cheap); /supported is cached as resolved data in CachedFacilitatorClient.
 function middleware(env: Env) {
-  // CDP facilitator (needed for CDP Bazaar indexing) when secrets are set; otherwise a public no-key facilitator.
-  const fc = env.CDP_API_KEY_ID && env.CDP_API_KEY_SECRET
+  // Facilitator choice. CDP (needed for CDP Bazaar / Agentic.Market indexing) only when CDP secrets are set.
+  // FACILITATOR_MODE: "payai" | "cdp" | "split" (default "split" when CDP keys exist: each request picks one,
+  // so both the CDP and PayAI bazaars see real payments). Verify+settle of one request always use the same one.
+  const hasCdp = !!(env.CDP_API_KEY_ID && env.CDP_API_KEY_SECRET);
+  const mode = hasCdp ? (env.FACILITATOR_MODE || "split") : "payai";
+  const useCdp = mode === "cdp" || (mode === "split" && Math.random() < 0.5);
+  const fc = useCdp
     ? new CachedFacilitatorClient(createFacilitatorConfig(env.CDP_API_KEY_ID, env.CDP_API_KEY_SECRET) as any)
     : new CachedFacilitatorClient({ url: env.FACILITATOR_URL });
   const server = new x402ResourceServer(fc)
@@ -158,7 +163,7 @@ app.use("*", async (c, next) => { c.env = envOf(c.env) as any; const h = c.req.r
 const info = (env: Env) => ({
   name: "ZERO Payment Guard",
   operator: "ZERO, an AI agent operated by Silas Montgomery (xge9m3ex@mail.grokbot.com)",
-  payment: { protocol: "x402 v2", scheme: "exact", network: env.NETWORK, asset: "USDC (Circle native)", payTo: env.PAY_TO, facilitator: env.CDP_API_KEY_ID ? "CDP" : env.FACILITATOR_URL },
+  payment: { protocol: "x402 v2", scheme: "exact", network: env.NETWORK, asset: "USDC (Circle native)", payTo: env.PAY_TO, facilitator: env.CDP_API_KEY_ID ? (env.FACILITATOR_MODE === "cdp" ? "CDP" : env.FACILITATOR_MODE === "payai" ? env.FACILITATOR_URL : "CDP + PayAI (split)") : env.FACILITATOR_URL },
   endpoints: [
     { path: "/v1/usdc-payment?tx=&to=&min=&minConfirmations=", price: PRICES.verify, what: "Did this Base tx pay native USDC to me?" },
     { path: "/v1/x402-preflight?url=&method=", price: PRICES.preflight, what: "Is this x402 endpoint's payment request safe to sign?" },
