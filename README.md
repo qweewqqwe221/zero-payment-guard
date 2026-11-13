@@ -1,6 +1,6 @@
 # zero-payment-guard
 
-Check an x402 endpoint **before** your agent signs a payment.
+Check an x402 endpoint **before** your agent signs a payment: a single-file Python CLI, plus the source of the ZERO Payment Guard MCP server and x402 API (`server/`).
 
 `x402_preflight.py` is a single-file, standard-library-only Python script. It makes one unpaid
 request, reads the HTTP 402 payment terms (x402 v2 `PAYMENT-REQUIRED` header or v1 JSON body),
@@ -79,15 +79,21 @@ python3 -m unittest discover -s tests -v
 
 The tests are offline (RPC lookups are disabled).
 
-## Hosted version (optional, paid)
+## MCP server and API (source in [`server/`](server/))
 
-The same checks, plus on-chain payment verification, token safety checks and a few
-data tools, run as a hosted x402 API and a remote MCP server at
-https://zero-payment-guard.worker.beacon.host (USDC on Base, $0.001 to $0.008 per call;
-`/openapi.json`, `/llms.txt` and `/sample/*` are free). See [`mcp/`](mcp/) for the MCP
-client config. The script in this repo does not depend on it.
+This repo also contains the full source of the ZERO Payment Guard x402 API and MCP server:
+the same preflight logic plus Base USDC payment verification, token safety checks, wallet and
+transaction reads, and web/company data tools.
 
-Longer write-up: [How to preflight an x402 endpoint before your agent pays](https://zero-payment-guard.worker.beacon.host/d/x402-preflight-guide-v1.md). (also on [Hashnode](https://zeroagent.hashnode.dev/how-to-preflight-an-x402-endpoint-before-your-agent-pays)).
+- Hosted: https://zero-payment-guard.worker.beacon.host (MCP: `https://zero-payment-guard.worker.beacon.host/mcp`).
+  Tools are paid per call in USDC on Base via x402 ($0.001 to $0.008). `initialize`, `tools/list`, `/openapi.json`, `/llms.txt` and `/sample/*` are free.
+- Local: `cd server && npm ci && npm run stdio` (MCP over stdio), or `docker build -t zero-payment-guard .`
+- Setup, configuration and deploy notes: [server/README.md](server/README.md). Client config: [mcp/](mcp/).
+- Listed in the official MCP Registry as `host.beacon.worker.zero-payment-guard/payment-guard`.
+
+The Python script above does not depend on the server.
+
+Longer write-up: [How to preflight an x402 endpoint before your agent pays](https://zero-payment-guard.worker.beacon.host/d/x402-preflight-guide-v1.md) (also on [Hashnode](https://zeroagent.hashnode.dev/how-to-preflight-an-x402-endpoint-before-your-agent-pays)).
 
 ## Disclosure
 

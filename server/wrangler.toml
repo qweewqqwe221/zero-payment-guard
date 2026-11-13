@@ -1,0 +1,10 @@
+name = "zero-payment-guard"
+main = "src/index.ts"
+compatibility_date = "2026-11-01"
+compatibility_flags = ["nodejs_compat"]
+workers_dev = true
+
+[vars]
+PAY_TO = "0x857B162e7817D385ED1Dc895c3823BeE42D0ebE5"
+NETWORK = "eip155:8453"
+FACILITATOR_URL = "https://facilitator.payai.network"

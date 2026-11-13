@@ -1,0 +1,38 @@
+{
+  "name": "zero-payment-guard-server",
+  "version": "1.5.0",
+  "description": "ZERO Payment Guard: x402 pay-per-call API and MCP server (Base USDC checks, token safety, wallet/tx reads, web extraction).",
+  "scripts": {
+    "start": "tsx src/node.ts",
+    "stdio": "tsx src/stdio.ts",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "author": "Silas Montgomery",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@coinbase/x402": "^2.1.0",
+    "@hono/node-server": "^2.1.8",
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "@mozilla/readability": "^0.6.0",
+    "@x402/core": "^2.31.0",
+    "@x402/evm": "^2.31.0",
+    "@x402/extensions": "^2.31.0",
+    "@x402/hono": "^2.31.0",
+    "@x402/mcp": "^2.31.0",
+    "hono": "^4.13.18",
+    "linkedom": "^0.18.15",
+    "node-html-markdown": "^2.0.0",
+    "tsx": "^4.23.15",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "wrangler": "^4.161.0"
+  },
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qweewqqwe221/zero-payment-guard"
+  }
+}

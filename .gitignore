@@ -1,4 +1,19 @@
+# Python
 __pycache__/
 *.pyc
+# Node / Wrangler
+node_modules/
+.wrangler/
+dist/
+# Secrets: never commit
 .env
+.env.*
+.dev.vars
+.dev.vars.*
 secret/
+secrets/
+*.pem
+*.key
+wallet.json
+*keystore*
+*.mnemonic
