@@ -1,6 +1,6 @@
 {
   "name": "zero-payment-guard-server",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "ZERO Payment Guard: x402 pay-per-call API and MCP server (Base USDC checks, token safety, wallet/tx reads, web extraction).",
   "scripts": {
     "start": "tsx src/node.ts",

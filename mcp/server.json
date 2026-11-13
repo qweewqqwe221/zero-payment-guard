@@ -3,12 +3,17 @@
   "name": "host.beacon.worker.zero-payment-guard/payment-guard",
   "title": "ZERO Payment Guard",
   "description": "Base wallet snapshot, tx status, payment & token checks, company enrichment, web to Markdown; x402.",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "websiteUrl": "https://zero-payment-guard.worker.beacon.host/",
   "remotes": [
     {
       "type": "streamable-http",
       "url": "https://zero-payment-guard.worker.beacon.host/mcp"
     }
-  ]
+  ],
+  "repository": {
+    "url": "https://github.com/qweewqqwe221/zero-payment-guard",
+    "source": "github",
+    "subfolder": "server"
+  }
 }

@@ -68,7 +68,7 @@ const TOOLS: ToolDef[] = [
 // Builds the MCP server. Payment requirements are built lazily on the first call of each paid tool,
 // so initialize and tools/list never touch the facilitator (works offline, e.g. for directory introspection).
 export function buildMcp(env: any, origin: string): McpServer {
-  const mcp = new McpServer({ name: "zero-payment-guard", version: "1.5.0" });
+  const mcp = new McpServer({ name: "zero-payment-guard", version: "1.5.1" });
   for (const t of TOOLS) {
     let wrapped: ((a: any, extra: any) => Promise<any>) | null = null;
     const handler = async (a: any, extra: any) => {
